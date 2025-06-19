@@ -1,0 +1,59 @@
+header {
+    width: 100%;
+    height: 72px;
+    position: fixed;
+    background: linear-gradient(270deg, #055ab5, #1d8be9);
+    z-index: 3000;
+}
+
+.map-aside {
+    position: fixed;
+    z-index: 10;
+    width: 7rem;
+    background-color: white;
+    height: 100%;
+    box-shadow: rgb(208, 215, 222) calc(max(1px, 0.0625rem) * -1) 0px inset;
+}
+
+.map-aside ul {
+    display: flex;
+    flexDirection: column;
+    justifyContent: space-between;
+    height: 100%;
+}
+
+.map-aside ul li {
+    position: relative;
+    transition: 0.2s;
+    height: 8rem;
+    font-size: 1.4rem;
+    color: black;
+    text-align: center;
+}
+
+.hashtag-pin, .hashtag-search {
+    height: 6rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    overflow: auto;
+}
+
+.hashtg {
+    border-radius: 2rem;
+    background-color: #98FB98;
+    padding: 0.3rem 0.9rem;
+}
+
+.hashtag-pin input[name="hashtag-txt"], .hashtag-search input[name="hashtag-txt"] {
+    height: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-area-block {
+    display: none;
+}

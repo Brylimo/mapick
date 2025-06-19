@@ -1,0 +1,83 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityAttractionDAO">
+    <insert id="insertCommunityAttraction" parameterType="CommunityAttractionDTO" useGeneratedKeys="true" keyProperty="communityAttractionId">
+        insert into community_attraction(community_id, attraction_id, reg_dt, mod_dt) values(#{communityId}, #{attractionId}, NOW(), NOW())
+    </insert>
+
+    <select id="findAllCommunityAttractions" resultMap="communityAttractionAttractionMap">
+        select c.*, a.* from community_attraction c
+        join attractions a on c.attraction_id = a.no
+        left join community_attraction_tag cat on c.community_attraction_id = cat.community_attraction_id
+        left join tag t on cat.tag_id = t.tag_id
+        <where>
+            <if test="communityId != null">
+                c.community_id = #{communityId}
+            </if>
+            <if test="query != null and query != ''">
+                and a.title like concat('%', #{query}, '%')
+            </if>
+            <if test="tags != null">
+                and t.name in
+                <foreach collection="tags" item="tag" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="findPopularAttractions" resultMap="popularAttractionMap">
+        SELECT
+            ca.community_attraction_id,
+            ca.community_id,
+            ca.attraction_id,
+            COUNT(cal.community_attraction_like_id) AS like_count,
+            a.latitude,
+            a.longitude,
+            a.title,
+            a.tel,
+            a.addr1
+        FROM community_attraction ca
+        LEFT JOIN community_attraction_like cal
+            ON ca.community_attraction_id = cal.community_attraction_id
+        JOIN attractions a
+            ON ca.attraction_id = a.no
+        GROUP BY
+            ca.community_attraction_id,
+            ca.community_id,
+            ca.attraction_id,
+            ca.reg_dt,
+            ca.mod_dt,
+            a.latitude,
+            a.longitude
+        HAVING like_count > 0
+        ORDER BY like_count DESC;
+    </select>
+
+    <resultMap type="com.enjoytrip.model.dto.CommunityAttractionDTO" id="communityAttractionMap">
+        <id column="community_attraction_id" property="communityAttractionId" />
+        <result column="community_id" property="communityId" />
+        <result column="attraction_id" property="attractionId" />
+        <result column="reg_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+    </resultMap>
+
+    <resultMap type="com.enjoytrip.model.dto.PopularAttractionDTO" id="popularAttractionMap">
+        <id column="community_attraction_id" property="communityAttractionId" />
+        <result column="community_id" property="communityId" />
+        <result column="attraction_id" property="attractionId" />
+        <result column="like_count" property="likeCount" />
+        <result column="latitude" property="latitude" />
+        <result column="longitude" property="longitude" />
+        <result column="longitude" property="longitude" />
+        <result column="title" property="title" />
+        <result column="tel" property="tel" />
+        <result column="addr1" property="addr1" />
+    </resultMap>
+
+    <resultMap type="CommunityAttractionDTO" id="communityAttractionAttractionMap" extends="communityAttractionMap">
+        <association property="attraction" resultMap="com.enjoytrip.model.dao.AttractionDAO.attractionMap"></association>
+    </resultMap>
+
+</mapper>

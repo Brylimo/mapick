@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.PlanDAO">
+    <insert id="insertPlan">
+        insert into plan(name, mno, createddate, updateddate)
+        values(#{name}, #{mno}, NOW(), NOW())
+    </insert>
+
+    <select id="getPlan" resultMap="planMemberMap">
+        select p.pid, p.mno, p.name, p.createddate, p.updateddate, m.mno as member_mno, m.name as member_name, m.email
+        from plan p
+        join member m on p.mno = m.mno
+        where p.pid = #{pid} order by p.createddate desc
+    </select>
+
+    <select id="getPlanByName" resultMap="planMemberMap">
+        select p.pid, p.mno, p.name, p.createddate, p.updateddate, m.mno as member_mno, m.name as member_name, m.email
+        from plan p
+        join member m on p.mno = m.mno 
+        where p.name = #{planName} and m.mno = #{mno}
+        order by p.createddate desc
+    </select>
+
+    <select id="getAllPlan" resultMap="planMemberMap">
+        select p.pid, p.mno, p.name, p.createddate, p.updateddate, m.mno as member_mno, m.name as member_name, m.email
+        from plan p
+        join member m on p.mno = m.mno
+        where p.mno = #{mno}
+        order by p.createddate desc
+    </select>
+
+    <update id="updatePlan">
+        update plan set
+        mno = #{mno}
+    </update>
+
+    <delete id="deletePlan">
+        delete from plan where mno = #{mno}
+    </delete>
+    
+    <resultMap type="PlanDTO" id="planMap">
+        <id column="pid" property="pid" />
+        <result column="mno" property="mno" />
+        <result column="name" property="name" />
+        <result column="createddate" property="createdDate" />
+        <result column="updateddate" property="updatedDate" />
+    </resultMap>
+
+    <resultMap type="PlanDTO" id="planMemberMap" extends="planMap">
+	    <association property="member" javaType="Member" >
+	        <id column="member_mno" property="mno"/>
+	        <result column="member_name" property="name"/>
+	        <result column="email" property="email"/>
+	    </association>
+    </resultMap>
+</mapper>

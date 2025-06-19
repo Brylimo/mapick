@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommentDAO">
+    <insert id="insertComment" parameterType="com.enjoytrip.model.dto.CommentDTO" useGeneratedKeys="true" keyProperty="commentId">
+        insert into comment (member_id, board_id, content, reg_dt)
+        values(#{memberId},#{boardId}, #{content}, NOW())
+    </insert>
+
+	<select id="getAllCommentsByBoardId" resultMap="commentMemberMap">
+		SELECT c.comment_id, c.board_id, c.member_id, c.content, c.reg_dt, c.mod_dt, m.mno, m.name, m.email
+        FROM comment c JOIN member m ON c.member_id = m.mno
+        where c.board_id = #{boardId}
+        ORDER BY reg_dt DESC
+	</select>
+	
+	<select id="getCommentById" resultMap="commentMemberMap">
+		SELECT c.comment_id, c.board_id, c.member_id, c.content, c.reg_dt, c.mod_dt, m.mno, m.name, m.email
+        FROM comment c JOIN member m ON c.member_id = m.mno
+        where c.comment_id = #{commentId}
+        ORDER BY reg_dt DESC
+	</select>
+	
+	<update id="updateComment">
+		update comment set
+		content=#{content}, mod_dt = NOW() WHERE comment_id = #{commentId}
+	</update>
+	
+	<delete id="deleteComment">
+        DELETE FROM comment WHERE comment_id =#{commentId}
+    </delete>
+
+    <resultMap type="com.enjoytrip.model.dto.CommentDTO" id="commentMap">
+        <id column="comment_id" property="commentId" />
+        <result column="member_id" property="memberId" />
+        <result column="board_id" property="boardId" />
+        <result column="content" property="content"/>
+        <result column="reg_dt" property="regDate" />
+        <result column="mod_dt" property="modDate" />
+    </resultMap>
+
+	<resultMap type="com.enjoytrip.model.dto.CommentDTO" id="commentMemberMap" extends="commentMap">
+        <association property="member" resultMap="com.enjoytrip.model.dao.MemberDAO.memberMap"></association>
+    </resultMap>
+
+</mapper>

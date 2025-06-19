@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityCategoryDAO">
+	<insert id="insertCommunityCategory" parameterType="CommunityCategoryDTO" useGeneratedKeys="true" keyProperty="communityCategoryId" >
+		insert into community_category(category_id, community_id, reg_dt) values(#{categoryId}, #{communityId}, NOW())
+	</insert>
+		
+	<select id="findByCommunityId" resultMap="com.enjoytrip.model.dao.CategoryDAO.categoryMap">
+		select c.category_id, c.category_name, c.reg_dt, c.mod_dt
+		from category c join community_category ct on c.category_id = ct.category_id
+		where ct.community_id = #{communityId}
+		order by ct.reg_dt desc		
+	</select>
+	
+	<select id="findByCategoryId" resultMap="com.enjoytrip.model.dao.CommunityDAO.communityMap">
+		select c.community_id, c.community_name, c.registered_by, c.desc, c.reg_dt, c.mod_dt
+		from community c join community_category ct on c.community_id = ct.community_id
+		where ct.category_id = #{categoryId}
+		order by ct.reg_dt desc		
+	</select>
+
+	
+	<delete id="deleteByCommunityId">
+		delete from community_category
+		where community_id=#{communityId}
+	</delete>
+	
+	<resultMap type="com.enjoytrip.model.dto.CommunityCategoryDTO" id="communityCategoryMap">
+	    <id column="community_category_id" property="communityCategoryId" />
+	    <result column="category_id" property="categoryId" />
+	    <result column="community_id" property="communityId" />
+	    <result column="reg_dt" property="regDt" />
+	    <result column="mod_dt" property="modDt" />
+	</resultMap>
+</mapper>

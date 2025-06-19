@@ -1,0 +1,51 @@
+/* 제목 스타일 */
+.title-box {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.title-box h3 {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.title-line {
+    width: 80px;
+    height: 3px;
+    background-color: #666;
+    margin: 0 auto;
+    border: none;
+}
+
+/* 카드 스타일 */
+.card {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* 버튼 스타일 */
+.btn {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* 카드 내부 패딩 */
+.post-item {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 게시글 이미지 */
+.post-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}

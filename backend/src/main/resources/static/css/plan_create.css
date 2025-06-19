@@ -1,0 +1,22 @@
+.plan-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.plan-block {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.plan-header {
+    display: flex;
+    width: 60%;
+}
+
+.plan-search {
+    display: flex;
+    flex: 1;
+}

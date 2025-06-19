@@ -1,0 +1,41 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.AttractionDAO">
+    <insert id="insertAttraction" parameterType="AttractionDataDTO" useGeneratedKeys="true" keyProperty="no">
+        insert into attractions (content_id, title, content_type_id, area_code, si_gun_gu_code, first_image1, first_image2, map_level, latitude, longitude, addr1, addr2)
+        select #{contentid}, #{title}, #{contenttypeid}, #{areacode}, #{sigungucode}, #{firstimage}, #{firstimage2}, #{mlevel}, #{mapy}, #{mapx}, #{addr1}, #{addr2}
+        where not exists (
+            select 1 from attractions where title = #{title}
+        );
+    </insert>
+
+    <insert id="insertAttractionCustom" parameterType="AttractionDataDTO" useGeneratedKeys="true" keyProperty="no">
+        insert into attractions (content_id, title, content_type_id, area_code, si_gun_gu_code, first_image1, first_image2, map_level, latitude, longitude, addr1, addr2)
+        values (#{contentid}, #{title}, #{contenttypeid}, #{areacode}, #{sigungucode}, #{firstimage}, #{firstimage2}, #{mlevel}, #{mapy}, #{mapx}, #{addr1}, #{addr2})
+    </insert>
+
+    <select id="getAttraction">
+        select * from attractions
+        where title = #{title} and latitude = #{latitude} and longitude = #{longitude}
+    </select>
+
+    <resultMap type="AttractionDTO" id="attractionMap">
+        <id column="no" property="no" />
+        <result column="content_id" property="contentId" />
+        <result column="title" property="title" />
+        <result column="content_type_id" property="contentTypeId" />
+        <result column="si_gun_gu_code" property="siGunGuCode" />
+        <result column="first_image1" property="firstImage1" />
+        <result column="first_image2" property="firstImage2" />
+        <result column="map_level" property="mapLevel" />
+        <result column="latitude" property="latitude" />
+        <result column="longitude" property="longitude" />
+        <result column="tel" property="tel" />
+        <result column="addr1" property="addr1" />
+        <result column="addr2" property="addr2" />
+        <result column="homepage" property="homepage" />
+        <result column="overview" property="overview" />
+    </resultMap>
+
+</mapper>

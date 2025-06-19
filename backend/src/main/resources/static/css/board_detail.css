@@ -1,0 +1,92 @@
+/* 제목 스타일 */
+.title-box {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.title-box h3 {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.title-line {
+    width: 80px;
+    height: 3px;
+    background-color: #666;
+    margin: 0 auto;
+    border: none;
+}
+
+/* 카드 스타일 */
+.card {
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 입력 필드 스타일 */
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+/* 버튼 스타일 */
+.btn {
+    width: 100px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.title-block {
+    display: flex;
+    font-size: 22px;
+    color: #757272;
+}
+
+.content-block {
+    display: flex;
+}
+
+.img-block {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url("/img/user.png");
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #c5c2c2;
+}
+
+.writer-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.writer-block .writer-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.board-content {
+    font-size: 19px;
+}
+
+#like-form {
+    all: unset; /* 폼 기본 스타일 제거 */
+    display: inline;
+}
+
+.like-button {
+    all: unset; /* 버튼 기본 스타일 제거 */
+    cursor: pointer;
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+i.fa-heart {
+    color: gray;
+}
+
+i.fa-heart.liked {
+    color: red;
+}

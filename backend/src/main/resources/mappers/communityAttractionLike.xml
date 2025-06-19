@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityAttractionLikeDAO">
+    <insert id="insertCommunityAttractionLike" parameterType="CommunityAttractionLike" useGeneratedKeys="true" keyProperty="communityAttractionLikeId" >
+        insert into community_attraction_like(community_attraction_id, member_id, reg_dt, mod_dt) values(#{communityAttractionId}, #{memberId}, NOW(), NOW())
+    </insert>
+
+    <select id="communityAttractionLikeCount">
+        select count(*) from community_attraction_like where member_id = #{memberId} and community_attraction_id = #{communityAttractionId}
+    </select>
+
+    <delete id="deleteCommunityAttractionLike">
+        delete from community_attraction_like where member_id = #{memberId} and community_attraction_id = #{communityAttractionId}
+    </delete>
+
+    <select id="getCommunityAttractionLikeCount">
+        select COUNT(*)
+        from community_attraction_like
+        where community_attraction_id = #{communityAttractionId}
+    </select>
+
+    <select id="getCommunityAttractionLiked" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM community_attraction_like
+        WHERE community_attraction_id = #{communityAttractionId}
+        AND member_id = #{memberId}
+    </select>
+
+    <resultMap type="CommunityAttractionLike" id="communityAttractionLikeMap">
+        <id column="community_attraction_like_id" property="communityAttractionLikeId" />
+        <result column="member_id" property="memberId" />
+        <result column="community_attraction_id" property="communityAttractionId" />
+        <result column="red_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+    </resultMap>
+</mapper>

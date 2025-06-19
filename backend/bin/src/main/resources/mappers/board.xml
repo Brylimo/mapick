@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.BoardDAO">
+	<insert id="insertBoard" parameterType="BoardDTO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO board (title, content, author) 
+		values(#{title},#{content},#{author})
+	</insert>
+	
+    <update id="updateBoard">
+        update board set
+        title=#{title}, content=#{content}, updated_at = NOW() WHERE board_id = #{id}
+    </update>
+
+     <delete id="deleteBoard">
+        DELETE FROM board WHERE board_id =#{id}
+    </delete>
+    
+    <select id="getBoardById" resultMap="boardMemberMap">
+		SELECT b.board_id, b.title, b.content, b.author, b.created_at, b.updated_at, 
+               m.mno, m.name, m.email
+        FROM board b
+        JOIN member m ON b.author = m.mno
+        WHERE b.board_id = #{id}
+    </select>
+
+	<select id="getAllBoards" resultMap="boardMemberMap">
+		SELECT b.board_id, b.title, b.content, b.author, b.created_at, b.updated_at, m.mno, m.name, m.email 
+		FROM board b JOIN member m ON b.author = m.mno 
+		ORDER BY created_at DESC
+	</select>
+
+    <select id="getBoardsByOpt" parameterType="map" resultMap="boardMemberMap">
+        SELECT
+        b.board_id,
+        b.title,
+        b.content,
+        b.author,
+        b.created_at,
+        b.updated_at,
+        m.mno,
+        m.name,
+        m.email
+        FROM board b
+        JOIN member m ON b.author = m.mno
+        WHERE 1=1
+
+        <choose>
+            <when test="opt == 'name'">
+                AND b.title LIKE CONCAT('%', #{query}, '%')
+            </when>
+            <when test="opt == 'name_content'">
+                AND (b.title LIKE CONCAT('%', #{query}, '%') OR b.content LIKE CONCAT('%', #{query}, '%'))
+            </when>
+            <when test="opt == 'writer'">
+                AND m.name LIKE CONCAT('%', #{query}, '%')
+            </when>
+        </choose>
+
+        ORDER BY b.created_at DESC
+    </select>
+	
+	<resultMap type="BoardDTO" id="boardMap">
+        <id column="board_id" property="id" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="author" property="author" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+    
+	<resultMap type="BoardDTO" id="boardMemberMap" extends="boardMap">
+        <association property="member" resultMap="com.enjoytrip.model.dao.MemberDAO.memberMap"></association>
+    </resultMap>
+
+</mapper>

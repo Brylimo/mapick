@@ -1,0 +1,39 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.PlanExpenseDAO">
+    <insert id="addExpense" parameterType="com.enjoytrip.model.dto.PlanExpenseDTO"
+            useGeneratedKeys="true" keyProperty="expId">
+        INSERT INTO plan_expense (plan_id, content, price)
+        VALUES (#{planId}, #{content}, #{price})
+    </insert>
+
+    <select id="getExpenseById" parameterType="int" resultMap="PlanExpenseMap">
+        SELECT * FROM plan_expense WHERE expid = #{expId}
+    </select>
+
+    <select id="getExpensesByPlanId" parameterType="int" resultMap="PlanExpenseMap">
+        SELECT * FROM plan_expense WHERE plan_id = #{planId} ORDER BY reg_dt ASC
+    </select>
+
+    <delete id="deleteExpenseById" parameterType="int">
+        DELETE FROM plan_expense WHERE expid = #{expId}
+    </delete>
+
+    <update id="updateReceiptPath">
+        UPDATE plan_expense SET receipt_path = #{path} WHERE expid = #{expId}
+    </update>
+
+    <select id="getReceiptPath" resultType="string">
+        SELECT receipt_path FROM plan_expense WHERE expid = #{expId}
+    </select>
+
+    <resultMap id="PlanExpenseMap" type="com.enjoytrip.model.dto.PlanExpenseDTO">
+        <id     column="expid"        property="expId"/>
+        <result column="plan_id"   property="planId"/>
+        <result column="content"   property="content"/>
+        <result column="price"     property="price"/>
+        <result column="reg_dt"    property="regDt"/>
+        <result column="receipt_path"    property="receiptPath"/>
+    </resultMap>
+</mapper>

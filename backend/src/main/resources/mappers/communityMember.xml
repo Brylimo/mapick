@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityMemberDAO">
+	<insert id="insertCommunityMember" parameterType="CommunityMemberDTO" useGeneratedKeys="true" keyProperty="communityMemberId" >
+		insert into community_member(member_id, community_id, reg_dt) values(#{memberId}, #{communityId}, NOW())
+	</insert>
+	<delete id="deleteByCommunityId">
+		delete from community_member
+		where community_id = #{communityId}
+	</delete>
+	
+	<select id="isMember" parameterType="map" resultType="boolean">
+    	SELECT EXISTS (SELECT 1 FROM community_member WHERE member_id = #{memberId} AND community_id = #{communityId})
+	</select>
+	
+	<resultMap type="com.enjoytrip.model.dto.CommunityMemberDTO" id="communityMemberMap">
+	    <id column="community_member_id" property="communityMemberId" />
+	    <result column="member_id" property="memberId" />
+	    <result column="community_id" property="communityId" />
+	    <result column="reg_dt" property="regDt" />
+	    <result column="mod_dt" property="modDt" />
+	</resultMap>
+</mapper>

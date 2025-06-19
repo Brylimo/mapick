@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CategoryDAO">
+    <insert id="createCategory" parameterType="CategoryDTO" useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO category (category_name, reg_dt)
+        values(#{categoryName}, NOW())
+    </insert>
+
+    <update id="categoryUpdate">
+        update category set
+        category_name=#{categoryName}, mod_dt = NOW() WHERE category_id = #{categoryId}
+    </update>
+
+     <delete id="categoryDelete">
+        DELETE FROM category WHERE category_id = #{categoryId}
+    </delete>
+
+    <select id="getCategoryById" resultMap="categoryMap">
+         SELECT * FROM category
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="getAllCategories" resultMap="categoryMap">
+        SELECT * FROM category
+        ORDER BY reg_dt DESC
+    </select>
+    
+    <select id="findByName" resultMap="categoryMap">
+		select * from category where category_name = #{categoryName} limit 1
+	</select>
+
+    <resultMap type="CategoryDTO" id="categoryMap">
+        <id column="category_id" property="categoryId" />
+        <result column="category_name" property="categoryName" />
+        <result column="reg_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+    </resultMap>
+</mapper>

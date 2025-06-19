@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.enjoytrip.model.dao.ReservedBoardDAO">
+
+    <resultMap id="reservedBoardMap" type="com.enjoytrip.model.dto.BoardDTO">
+        <id column="reserved_board_id" property="id" />
+        <result column="community_id" property="communityId" />
+        <result column="title" property="title" />
+        <result column="content" property="content" />
+        <result column="author" property="author" />
+        <result column="reserved_time" property="reservedTime" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <insert id="insertReservedBoard" parameterType="com.enjoytrip.model.dto.BoardDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO reserved_board (community_id, title, content, author, reserved_time)
+    	VALUES (#{communityId}, #{title}, #{content}, #{author}, #{reservedTime})
+    </insert>
+
+    <select id="getReservedBoardById" parameterType="long" resultMap="reservedBoardMap">
+        SELECT reserved_board_id, community_id, title, content, author, reserved_time, created_at, updated_at
+        FROM reserved_board
+        WHERE reserved_board_id = #{id}
+    </select>
+
+    <select id="getAllReservedBoards" resultMap="reservedBoardMap">
+        SELECT reserved_board_id, community_id, title, content, author, reserved_time, created_at, updated_at
+        FROM reserved_board
+    </select>
+
+    <delete id="deleteReservedBoard" parameterType="long">
+        DELETE FROM reserved_board WHERE reserved_board_id = #{id}
+    </delete>
+
+</mapper>

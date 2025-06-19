@@ -1,0 +1,26 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.GugunsDAO">
+    <insert id="insertGugunOne" parameterType="GugunsDataDTO">
+        insert into guguns (sido_code, gugun_code, gugun_name)
+        select #{sidoCode}, #{code}, #{name}
+        from dual
+        where not exists (
+            select 1 from guguns
+            where sido_code = #{sidoCode}
+            and gugun_code = #{code}
+        )
+    </insert>
+
+    <select id="getGugunsBySido" resultMap="gugunResultMap">
+        select * from guguns where sido_code = #{sidoCode}
+    </select>
+
+    <resultMap id="gugunResultMap" type="GugunsDTO">
+        <id property="no" column="no" />
+        <result property="sidoCode" column="sido_code" />
+        <result property="gugunCode" column="gugun_code" />
+        <result property="gugunName" column="gugun_name" />
+    </resultMap>
+</mapper>

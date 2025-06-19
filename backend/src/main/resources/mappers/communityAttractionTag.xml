@@ -1,0 +1,35 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityAttractionTagDAO">
+    <insert id="insertCommunityAttractionTag" parameterType="CommunityAttractionTagDTO" useGeneratedKeys="true" keyProperty="communityAttractionTagId">
+        insert into community_attraction_tag(community_attraction_id, tag_id, reg_dt, mod_dt) values(#{communityAttractionId}, #{tagId}, NOW(), NOW())
+    </insert>
+
+    <select id="getCommunityAttractionTags" resultMap="communityAttractionTagWithTagMap">
+        select
+            c.community_attraction_tag_id,
+            c.community_attraction_id,
+            c.tag_id as c_tag_id, -- 충돌 방지용 alias
+            c.reg_dt,
+            c.mod_dt,
+            t.tag_id as t_tag_id,
+            t.name
+        from community_attraction_tag c
+        join tag t on t.tag_id = c.tag_id
+        where community_attraction_id = #{communityAttractionId}
+    </select>
+
+    <resultMap id="communityAttractionTagWithTagMap" type="CommunityAttractionTag">
+        <id column="community_attraction_tag_id" property="communityAttractionTagId" />
+        <result column="community_attraction_id" property="communityAttractionId" />
+        <result column="c_tag_id" property="tagId" />
+        <result column="reg_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+
+        <association property="tag" javaType="TagDTO">
+            <id column="t_tag_id" property="tagId" />
+            <result column="name" property="name" />
+        </association>
+    </resultMap>
+</mapper>

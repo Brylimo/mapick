@@ -1,0 +1,168 @@
+/* common2.css */
+/*a {
+	text-decoration: none;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.post-container {
+    margin: 20px auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.post-list .post-item {
+	display: flex;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.post-item:hover {
+    transform: translateY(-3px);
+}
+
+.post-head {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.post-content {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}*/
+/* 공통 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+/* 링크 스타일 */
+a {
+    text-decoration: none;
+    font-size: 12px;
+    cursor: pointer;
+    color: #007bff;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+/* 컨테이너 스타일 */
+.post-container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* 포스트 리스트 스타일 */
+.post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 포스트 아이템 스타일 */
+.post-list .post-item {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    border-left: 4px solid #007bff;
+}
+
+.post-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 포스트 제목 스타일 */
+.post-head {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* 포스트 내용 스타일 */
+.post-content {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.custom-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.custom-card:hover {
+    transform: scale(1.05);
+}
+
+.custom-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.custom-card .card-body {
+    text-align: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .post-container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .post-item {
+        padding: 15px;
+    }
+
+    .post-head {
+        font-size: 18px;
+    }
+
+    .post-content {
+        font-size: 14px;
+    }
+}

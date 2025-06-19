@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.PlanAttractionDAO">
+    <insert id="insertPlanAttraction" parameterType="PlanAttractionDTO" useGeneratedKeys="true" keyProperty="ppid">
+        insert into plan_attraction (idx, planid, attractionid)
+        values (#{idx}, #{planid}, #{attractionid})
+    </insert>
+
+    <select id="getAllPlanAttractions" resultMap="planAttractionAttractionMap">
+		  select 
+		    pa.ppid, pa.idx, pa.planid, pa.attractionid, pa.exp, pa.time,
+		    a.no as no, a.content_id, a.title, a.content_type_id,
+		    a.si_gun_gu_code, a.first_image1, a.first_image2,
+		    a.map_level, a.latitude, a.longitude, a.tel,
+		    a.addr1, a.addr2, a.homepage, a.overview
+		  from plan_attraction pa
+		  join attractions a on a.no = pa.attractionid
+		  where pa.planid = #{pid}
+    </select>
+
+	<select id="getPlanAttractionById" resultMap="planAttractionAttractionMap">
+	    select 
+	        pa.ppid, pa.idx, pa.planid, pa.attractionid, pa.exp, pa.time,
+	        a.no as no, a.content_id, a.title, a.content_type_id,
+	        a.si_gun_gu_code, a.first_image1, a.first_image2,
+	        a.map_level, a.latitude, a.longitude, a.tel,
+	        a.addr1, a.addr2, a.homepage, a.overview
+	    from plan_attraction pa
+	    join attractions a on a.no = pa.attractionid
+	    where pa.ppid = #{id}
+	</select>
+	
+	<update id="updatePlanAttraction">
+		update plan_attraction
+		set time = #{time}, exp = #{exp}
+		where ppid= #{ppid}
+	</update>
+
+    <delete id="deletePlanAttraction">
+        delete from plan_attraction where ppid = #{pid}
+    </delete>
+
+    <resultMap type="PlanAttractionDTO" id="planAttractionMap">
+        <id column="ppid" property="ppid" />
+        <result column="idx" property="idx" />
+        <result column="planid" property="planid" />
+        <result column="attractionid" property="attractionid" />
+        <result column="exp" property="exp" />
+        <result column="time" property="time" />
+    </resultMap>
+
+    <resultMap type="PlanAttractionDTO" id="planAttractionAttractionMap" extends="planAttractionMap">
+        <association property="attraction" resultMap="com.enjoytrip.model.dao.AttractionDAO.attractionMap"></association>
+    </resultMap>
+
+</mapper>

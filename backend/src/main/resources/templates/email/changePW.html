@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+  <style>
+    .email-wrapper {
+      width: 100%;
+      background-color: #efeff0;
+    }
+    .email-block {
+      width: 640px;
+      background-color: white;
+      margin: 0 auto;
+    }
+    .header {
+      background-color: #ded2ff;
+      text-align: center;
+      font-weight: 400;
+      padding: 15px 0;
+    }
+    .header h1 {
+      font-weight: 400;
+    }
+    .body {
+      padding: 22px 12px;
+    }
+    .body h1 {
+      margin: 35px 0;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: bold;
+      color: #1e1e1e;
+    }
+  </style>
+</head>
+<body>
+<div class="email-wrapper">
+  <div class="email-block">
+    <div class="header">
+      <h1>Mapick 계정</h1>
+    </div>
+    <div class="body">
+      <p>안녕하세요.</p>
+      <p>Mapick 비밀번호 변경 요청을 확인하였습니다.</p>
+      <br />
+      <p>아래 인증코드를 입력하여 비밀번호 변경을 완료해 주세요.</p>
+
+      <h2 th:text="${code}"></h2>
+
+      <p>※ 유의 사항 안내</p>
+      <p>- 본 인증 코드는 발송 시점부터 5분간 유효합니다.</p>
+      <p>- 새로운 인증코드를 요청하시면 이전 코드는 자동으로 만료됩니다.</p>
+      <p>- 이메일이 도착하지 않았다면 스팸 메일함을 확인해 주세요.</p>
+      <br />
+      <p>기타 문의사항은 본 메일로 회신 부탁드립니다. :)</p>
+      <br />
+      <p>감사합니다.</p>
+      <p>Mapick 드림.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

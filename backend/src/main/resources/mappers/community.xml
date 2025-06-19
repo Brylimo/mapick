@@ -1,0 +1,60 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityDAO">
+	<insert id="insertCommunity" parameterType="CommunityDTO" useGeneratedKeys="true" keyProperty="communityId" >
+		insert into community(community_name, registered_by, `desc`, reg_dt) values(#{communityName}, #{registeredBy}, #{desc}, NOW())
+	</insert>
+
+	<update id="updateCommunity" parameterType="CommunityDTO">
+		update community set community_name = #{communityName}, `desc`=#{desc}, mod_dt=NOW()
+		where community_id = #{communityId}
+	</update>
+	
+	<select id="getAllCommunities" resultMap="communityMap">
+		SELECT * FROM community
+		ORDER BY reg_dt DESC
+	</select>
+	
+	<select id="findByName" resultMap="communityMap">
+		SELECT * FROM community
+		WHERE community_name =  #{communityName}
+	</select>
+
+	<select id="findById" resultMap="communityMemberMap">
+		SELECT * FROM community c
+		JOIN member m ON c.registered_by = m.mno
+		WHERE community_id = #{communityId}
+	</select>
+	
+	<delete id="deleteById">
+		delete from community
+		where community_id=#{communityId}
+	</delete>
+
+	<select id="getTopLikedCommunities" resultMap="communityMap">
+		SELECT c.community_id, c.community_name, c.registered_by, c.desc, c.reg_dt, c.mod_dt
+		FROM community c
+		JOIN (
+		SELECT community_id, COUNT(*) AS like_count
+		FROM community_like
+		GROUP BY community_id
+		ORDER BY like_count DESC
+		LIMIT 3
+		) cl ON c.community_id = cl.community_id
+	</select>
+	
+	<resultMap type="com.enjoytrip.model.dto.CommunityDTO" id="communityMap">
+	    <id column="community_id" property="communityId" />
+	    <result column="community_name" property="communityName" />
+	    <result column="registered_by" property="registeredBy" />
+	    <result column="desc" property="desc" />
+	    <result column="reg_dt" property="regDt" />
+	    <result column="mod_dt" property="modDt" />
+	</resultMap>
+
+	<resultMap type="com.enjoytrip.model.dto.CommunityDTO" id="communityMemberMap" extends="communityMap">
+		<association property="member" resultMap="com.enjoytrip.model.dao.MemberDAO.memberMap"></association>
+	</resultMap>
+
+</mapper>

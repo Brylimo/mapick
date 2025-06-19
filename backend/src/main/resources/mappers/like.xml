@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.LikeDAO">
+    <insert id="insertLike" parameterType="LikeDTO" useGeneratedKeys="true" keyProperty="likeId">
+        insert into ssafytrip.like (member_id, board_id, reg_dt)
+        values(#{memberId},#{boardId},NOW())
+    </insert>
+    <select id="getLikeCountsByBoardIds" resultType="hashMap">
+        select board_id, COUNT(*) as like_cnt
+        from ssafytrip.like
+        where board_id in
+        <foreach collection="boardIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        group by board_id
+    </select>
+
+    <select id="getLikedByBoardIdAndUserId" resultType="long">
+        select board_id
+        from ssafytrip.like
+        where member_id = #{memberId}
+        and board_id in
+        <foreach collection="boardIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getLikeCnt">
+        select COUNT(*)
+        from ssafytrip.like
+        where board_id = #{boardId}
+    </select>
+
+    <select id="getLiked" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM ssafytrip.like
+        WHERE board_id = #{boardId}
+        AND member_id = #{memberId}
+    </select>
+
+    <select id="getAllLikeCnt">
+        select COUNT(*)
+        from ssafytrip.like
+        where board_id = #{boardId}
+    </select>
+    
+    <delete id="deleteLike">
+    	delete from ssafytrip.like
+    	WHERE board_id = #{boardId}
+        AND member_id = #{memberId}
+    </delete>
+
+    <resultMap type="com.enjoytrip.model.dto.LikeDTO" id="LikeMap">
+        <id column="like_id" property="likeId" />
+        <result column="member_id" property="memberId" />
+        <result column="board_id" property="boardId" />
+        <result column="reg_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+    </resultMap>
+
+</mapper>

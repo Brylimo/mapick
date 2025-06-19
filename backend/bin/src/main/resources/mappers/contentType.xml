@@ -1,0 +1,17 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.ContentTypeDAO">
+    <insert id="insertContentTypeList">
+        insert ignore into contenttypes (content_type_id, content_type_name)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.contentTypeId}, #{item.contentTypeName})
+        </foreach>
+    </insert>
+
+    <select id="getAllContentType">
+        select * from contenttypes
+    </select>
+
+</mapper>

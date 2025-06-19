@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.SubCommentDAO">
+    <insert id="insertSubComment" parameterType="SubCommentDTO" useGeneratedKeys="true" keyProperty="subCommentId">
+        insert into sub_comment (comment_id, member_id, content, reg_dt)
+		values(#{commentId}, #{memberId}, #{content}, NOW())
+    </insert>
+
+	<select id="getAllSubCommentByCommentId" resultMap="subCommentMemberMap">
+		SELECT c.sub_comment_id, c.comment_id, c.member_id, c.content, c.reg_dt, c.mod_dt, m.mno, m.name, m.email
+        FROM sub_comment c JOIN member m ON c.member_id = m.mno
+        where c.comment_id = #{commentId}
+        ORDER BY reg_dt DESC
+	</select>
+	
+	<select id="getSubCommentById" resultMap="subCommentMemberMap">
+		SELECT c.sub_comment_id, c.comment_id, c.member_id, c.content, c.reg_dt, c.mod_dt, m.mno, m.name, m.email
+        FROM sub_comment c JOIN member m ON c.member_id = m.mno
+        where c.sub_comment_id = #{subCommentId}
+        ORDER BY reg_dt DESC
+	</select>
+	
+	<update id="updateSubComment">
+		update sub_comment set
+        content = #{content}, mod_dt = NOW() WHERE sub_comment_id = #{subCommentId}
+	</update>
+	
+	<delete id="deleteSubComment">
+        DELETE FROM sub_comment WHERE sub_comment_id =#{subCommentId}
+    </delete>
+
+    <resultMap type="com.enjoytrip.model.dto.SubCommentDTO" id="subCommentMap">
+        <id column="sub_comment_id" property="subCommentId" />
+        <result column="comment_id" property="commentId" />
+        <result column="member_id" property="memberId" />
+        <result column="content" property="content"/>
+        <result column="reg_dt" property="regDate" />
+        <result column="mod_dt" property="modDate" />
+    </resultMap>
+
+	<resultMap type="com.enjoytrip.model.dto.SubCommentDTO" id="subCommentMemberMap" extends="subCommentMap">
+        <association property="member" resultMap="com.enjoytrip.model.dao.MemberDAO.memberMap"></association>
+    </resultMap>
+
+</mapper>

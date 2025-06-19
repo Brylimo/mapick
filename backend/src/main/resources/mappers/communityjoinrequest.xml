@@ -1,0 +1,37 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityJoinRequestDAO">
+    <insert id="insertJoinRequest" parameterType="com.enjoytrip.model.dto.CommunityJoinRequestDTO">
+        INSERT INTO community_join_request (member_id, community_id, nickname, reason, request_date )
+        VALUES ( #{memberId}, #{communityId}, #{nickname}, #{reason}, NOW() )
+    </insert>
+
+    <select id="getRequestsByCommunityId" resultMap="CommunityJoinRequestResultMap">
+        SELECT *
+        FROM community_join_request
+        WHERE community_id = #{communityId}
+        ORDER BY request_date DESC
+    </select>
+
+    <select id="findById" resultMap="CommunityJoinRequestResultMap" parameterType="int">
+        SELECT *
+        FROM community_join_request
+        WHERE join_request_id = #{joinRequestId}
+    </select>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM community_join_request
+        WHERE join_request_id = #{joinRequestId}
+    </delete>
+
+
+    <resultMap id="CommunityJoinRequestResultMap" type="com.enjoytrip.model.dto.CommunityJoinRequestDTO">
+        <id property="joinRequestId" column="join_request_id" />
+        <result property="memberId" column="member_id" />
+        <result property="communityId" column="community_id" />
+        <result property="nickname" column="nickname" />
+        <result property="reason" column="reason" />
+        <result property="requestDate" column="request_date" />
+    </resultMap>
+</mapper>

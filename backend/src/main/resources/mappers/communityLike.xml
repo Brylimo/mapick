@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.CommunityLikeDAO">
+    <insert id="insertCommunityLike" parameterType="CommunityLike" useGeneratedKeys="true" keyProperty="communityLikeId" >
+        insert into community_like(member_id, community_id, reg_dt, mod_dt) values(#{memberId}, #{communityId}, NOW(), NOW())
+    </insert>
+
+    <select id="communityLikeCount">
+        select count(*) from community_like where member_id = #{memberId} and community_id = #{communityId}
+    </select>
+
+    <delete id="deleteCommunityLike">
+        DELETE FROM community_like WHERE member_id = #{memberId} and community_id = #{communityId}
+    </delete>
+
+    <resultMap type="CommunityLike" id="communityLikeMap">
+        <id column="community_like_id" property="communityLikeId" />
+        <result column="member_id" property="memberId" />
+        <result column="community_id" property="communityId" />
+        <result column="red_dt" property="regDt" />
+        <result column="mod_dt" property="modDt" />
+    </resultMap>
+</mapper>

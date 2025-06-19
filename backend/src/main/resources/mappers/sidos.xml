@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.enjoytrip.model.dao.SidosDAO">
+    <insert id="insertSidoOne" parameterType="SidosDataDTO">
+        INSERT INTO sidos (sido_code, sido_name)
+        SELECT #{code}, #{name}
+        FROM dual
+        WHERE NOT EXISTS (
+        SELECT 1 FROM sidos WHERE sido_name = #{name}
+        )
+    </insert>
+
+    <select id="getAllSidos" resultMap="sidoResultMap">
+        SELECT no, sido_code, sido_name
+        FROM sidos
+    </select>
+
+    <resultMap id="sidoResultMap" type="SidosDTO">
+        <id property="no" column="no" />
+        <result property="sidoCode" column="sido_code" />
+        <result property="sidoName" column="sido_name" />
+    </resultMap>
+</mapper>
